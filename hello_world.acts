@@ -1,6 +1,6 @@
 require "config" @Window
-require * @Timeline
-.init()
+require "time" @Timeline
+.init() {
   $config.window {
     width: 512;
     height: 512;
