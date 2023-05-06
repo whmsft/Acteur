@@ -9,7 +9,7 @@ require "time" @Timeline
   $config.window {
     width: 512;
     height: 512;
-    background: #0084FF;
+    background: #202020;
     foreground: #FFFFFF;
     font: "Consolas 14";
   }
