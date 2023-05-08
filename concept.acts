@@ -1,22 +1,26 @@
-require "config" @Window
-require "time" @Timeline
-.init() {
-  $config.window {
-    width: 512;
-    height: 512;
-    background: #0084FF;
-    foreground: #FFFFFF;
-    font: "Consolas 14";
-  }
-  #length: 10;
-}
+.setup {
+  foreground: "#FAFAFA"
+  background: "#202020"
+  font: [consolas.ttf, 40]
+  width: 320
+  height: 640
+  fps: 8
+  length: 5
+};
 .objects {
-  !hello_world: {
-    text: "Hello World";
+  $hello {
+    x: 10
+    y: 10
+    string: Hello,
+  }
+  $world {
+    x: 50
+    y: 50
+    string: World
   }
 }
 .timeline {
-  if $time('00:01') {
-    !hello_world.show(10, 20)
+  f0 {
+    000
   }
 }
