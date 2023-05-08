@@ -1,31 +1,37 @@
-from PIL import Image, ImageDraw, ImageFont
+import os
 import yaml
+import imageio
+from PIL import Image, ImageDraw, ImageFont
 
-script = yaml.safe_load()
+# Load script file for execution
+script = yaml.safe_load(open("hello_world.yml").read())
 
-# Define the dictionary
-text = {
-    "x": 10, 
-    "y": 10, 
-    "width": 100, 
-    "height":100, 
-    "string": "Hello, World", 
-    "background": "#202020", 
-    "foreground": "#FFFFFF", 
-    "font": "consolas.ttf"
-}
+images  = {}
+objects = {}
 
-# Create a new image with the specified dimensions and background color
-image = Image.new("RGB", (text["width"], text["height"]), text["background"])
+# setup frames
+for img in range(script['setup']['length']):
+    images[f'f{img}'] = Image.new("RGB", (script["setup"]["width"], script["setup"]["height"]), script["setup"]["background"])
+script['setup']['font'] = ImageFont.truetype(script['setup']['font'][0], size=script['setup']['font'][1])
 
-# Create a new drawing object
-draw = ImageDraw.Draw(image)
+# retrieve objects
+for object in script['objects'].keys():
+    objects[object] = script['objects'][object]
 
-# Set the font for the text
-#font = ImageFont.truetype(text["font"], size=12)
+# Loop through each frame
+for frame in images.keys():
+    # If frame is listed in timeline of script
+    if frame in script['timeline'].keys():
+        for task in list(script['timeline'][frame]):
+            canvas = ImageDraw.Draw(images[frame]) # create a canvas for drawing
+            obj = task.split(".")[0] # concerned object
+            fnc = task.split(".")[1] # concerned function
+            if (fnc == "text"): # Only text addition function for now.
+                canvas.text((objects[obj]["x"], objects[obj]["y"]), objects[obj][fnc]["string"], fill=script['setup']["foreground"], font=script['setup']['font'])
+    else:
+        # if frame is not listed, copy previous frame
+        if int(frame[1:]) > 0:
+            images[frame] = images['f'+str(int(frame[1:])-1)]
 
-# Draw the text on the image with the specified color and font
-draw.text((text["x"], text["y"]), text["string"], fill=text["foreground"])#, font=font)
-
-# Save the image to a file in png format
-image.save("text_image.png", format="png")
+# use imageio to save mp4 output
+imageio.mimsave('./out.mp4', [images[img] for img in images.keys()], fps=script['setup']['fps'])
