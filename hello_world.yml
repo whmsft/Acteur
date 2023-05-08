@@ -1,0 +1,23 @@
+setup:
+  foreground: "#FAFAFA"
+  background: "#202020"
+  font: [consolas.ttf, 40]
+  width: 320
+  height: 640
+  fps: 8
+  length: 5
+objects:
+  hello:
+    x: 10
+    y: 10
+    text:
+      string: Hello,
+  world:
+    x: 50
+    y: 50
+    text:
+      string: World
+timeline:
+  f0: 
+    - hello.text
+    - world.text

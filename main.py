@@ -1,4 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
+import yaml
+
+script = yaml.safe_load()
 
 # Define the dictionary
 text = {
@@ -9,7 +12,7 @@ text = {
     "string": "Hello, World", 
     "background": "#202020", 
     "foreground": "#FFFFFF", 
-    "font": "Consolas 12"
+    "font": "consolas.ttf"
 }
 
 # Create a new image with the specified dimensions and background color
