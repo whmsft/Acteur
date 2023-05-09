@@ -15,8 +15,10 @@ for img in range(script['setup']['length']):
 script['setup']['font'] = ImageFont.truetype(script['setup']['font'][0], size=script['setup']['font'][1])
 
 # retrieve objects
-for object in script['objects'].keys():
-    objects[object] = script['objects'][object]
+try:
+    for object in script['objects'].keys():
+        objects[object] = script['objects'][object]
+except: pass
 
 # Loop through each frame
 for frame in images.keys():
@@ -24,10 +26,7 @@ for frame in images.keys():
     if frame in script['timeline'].keys():
         for task in list(script['timeline'][frame]):
             canvas = ImageDraw.Draw(images[frame]) # create a canvas for drawing
-            obj = task.split(".")[0] # concerned object
-            fnc = task.split(".")[1] # concerned function
-            if (fnc == "text"): # Only text addition function for now.
-                canvas.text((objects[obj]["x"], objects[obj]["y"]), objects[obj][fnc]["string"], fill=script['setup']["foreground"], font=script['setup']['font'])
+            exec(script['timeline'][frame])
     else:
         # if frame is not listed, copy previous frame
         if int(frame[1:]) > 0:

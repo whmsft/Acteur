@@ -5,19 +5,9 @@ setup:
   width: 320
   height: 640
   fps: 8
-  length: 5
+  length: 8
 objects:
-  hello:
-    x: 10
-    y: 10
-    text:
-      string: Hello,
-  world:
-    x: 50
-    y: 50
-    text:
-      string: World
+  null
 timeline:
-  f0: 
-    - hello.text
-    - world.text
+  f0: >
+    canvas.text((10, 10), "hola", '#0084ff', script['setup']['font'])
